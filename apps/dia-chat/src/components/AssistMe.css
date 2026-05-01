@@ -1,0 +1,208 @@
+.assist-layout {
+  display: flex;
+  gap: 20px;
+  height: 100vh;
+  padding: 20px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ── Chat panel ── */
+.assist-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  min-height: 0;
+}
+
+.assist-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assist-bubble {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.assist-bubble--user {
+  align-self: flex-end;
+  background: var(--color-primary);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.assist-bubble--assistant {
+  align-self: flex-start;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-bottom-left-radius: 4px;
+}
+
+.assist-bubble--typing {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 14px 18px;
+}
+
+.assist-bubble--typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+  animation: typing-dot 1.2s infinite ease-in-out;
+}
+
+.assist-bubble--typing span:nth-child(2) { animation-delay: 0.2s; }
+.assist-bubble--typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+.assist-input-row {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.assist-input {
+  flex: 1;
+  resize: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  outline: none;
+  transition: border-color var(--transition);
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.assist-input:focus {
+  border-color: var(--color-primary);
+}
+
+.assist-send {
+  padding: 10px 20px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background var(--transition);
+  white-space: nowrap;
+  align-self: flex-end;
+}
+
+.assist-send:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.assist-send:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Post-it panel ── */
+.assist-postit {
+  width: 260px;
+  flex-shrink: 0;
+  background: #fef9c3;
+  border-radius: var(--radius-md);
+  border-top: 6px solid #eab308;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-md);
+  align-self: flex-start;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.postit-header {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #713f12;
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.postit-empty {
+  font-size: 0.88rem;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+.postit-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.postit-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.postit-status {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.postit-item--pending .postit-status   { color: #92400e; }
+.postit-item--in_progress .postit-status { color: #1d4ed8; }
+.postit-item--done .postit-status      { color: #15803d; }
+
+.postit-desc {
+  font-size: 0.9rem;
+  color: #422006;
+  line-height: 1.4;
+}
+
+.postit-item--done .postit-desc {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .assist-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .assist-chat {
+    height: 65vh;
+  }
+
+  .assist-postit {
+    width: 100%;
+    align-self: stretch;
+  }
+}

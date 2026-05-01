@@ -1,16 +1,10 @@
 {
-  "name": "dia-shared",
-  "version": "0.0.0",
+  "name": "@dia/shared",
+  "version": "0.1.0",
   "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "type": "module",
   "exports": {
-    ".": "./src/index.ts"
-  },
-  "scripts": {
-    "build": "echo \"Add build command\"",
-    "lint": "echo \"Add lint command\"",
-    "type-check": "echo \"Add type-check command\"",
-    "clean": "rm -rf dist"
+    ".": "./src/index.ts",
+    "./index.css": "./src/index.css"
   }
 }
