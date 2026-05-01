@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@dia/shared': path.resolve(__dirname, '../dia-shared/src'),
+      '@dia/shared': path.resolve(__dirname, '../../packages/dia-shared/src'),
     },
   },
 });
