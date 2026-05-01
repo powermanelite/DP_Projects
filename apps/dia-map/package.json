@@ -1,0 +1,15 @@
+{
+  "name": "dia-map",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"Add dev command\"",
+    "build": "echo \"Add build command\"",
+    "lint": "echo \"Add lint command\"",
+    "type-check": "echo \"Add type-check command\"",
+    "clean": "rm -rf .next dist"
+  },
+  "dependencies": {
+    "dia-shared": "*"
+  }
+}
