@@ -6,11 +6,13 @@ import MapPage from '@dia/map';
 import ChatPage from '@dia/chat';
 import './App.css';
 
+const ENABLE_CHAT = import.meta.env.VITE_ENABLE_CHAT === 'true';
+
 const tabs: { id: Tab; label: string }[] = [
   { id: 'home', label: 'Home' },
   { id: 'calendar', label: 'Calendar' },
   { id: 'map', label: 'Map' },
-  { id: 'chat', label: 'Assist Me' },
+  ...(ENABLE_CHAT ? [{ id: 'chat' as Tab, label: 'Assist Me' }] : []),
 ];
 
 function App() {
@@ -71,7 +73,7 @@ function App() {
             onPinHandled={() => setMapPinRequest(null)}
           />
         )}
-        {activeTab === 'chat' && <ChatPage />}
+        {ENABLE_CHAT && activeTab === 'chat' && <ChatPage />}
       </main>
     </div>
   );
