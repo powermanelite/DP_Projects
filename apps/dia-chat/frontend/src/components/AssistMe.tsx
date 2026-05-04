@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import './AssistMe.css';
 
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = import.meta.env.VITE_CHAT_API_BASE ?? 'http://127.0.0.1:8000';
 const CHECKIN_INTERVAL_MS = 60 * 60 * 1000;
 
 type TaskStatus = 'pending' | 'in_progress' | 'done';
@@ -101,8 +101,14 @@ export default function AssistMe() {
     if (!text || loading) return;
     setInput('');
     const userMsg: Message = { role: 'user', content: text };
+    setMessages(prev => [...prev, userMsg]);
+
+    if (text === '/start')  { await handleNewChat(); return; }
+    if (text === '/end')    { await handleEnd();     return; }
+    if (text === '/health') { await handleHealth();  return; }
+    if (text === '/chat')   { return; }
+
     const next = [...messages, userMsg];
-    setMessages(next);
     setLoading(true);
     try {
       const data = await callChat(next, tasks);
@@ -184,8 +190,22 @@ export default function AssistMe() {
             <ul className="postit-list">
               {tasks.map(task => (
                 <li key={task.id} className={`postit-item postit-item--${task.status}`}>
-                  <span className="postit-status">{STATUS_LABEL[task.status]}</span>
-                  <span className="postit-desc">{task.description}</span>
+                  <label className="postit-task-label">
+                    <input
+                      type="checkbox"
+                      className="postit-checkbox"
+                      checked={task.status === 'done'}
+                      onChange={() =>
+                        setTasks(prev => prev.map(t =>
+                          t.id === task.id
+                            ? { ...t, status: t.status === 'done' ? 'pending' : 'done' }
+                            : t
+                        ))
+                      }
+                    />
+                    <span className="postit-desc">{task.description}</span>
+                  </label>
+                  {task.status !== 'pending' && <span className="postit-status">{STATUS_LABEL[task.status]}</span>}
                 </li>
               ))}
             </ul>

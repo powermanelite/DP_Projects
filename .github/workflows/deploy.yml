@@ -31,6 +31,8 @@ jobs:
         working-directory: apps/dia-website
         env:
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+          VITE_ENABLE_CHAT: 'true'
+          VITE_CHAT_API_BASE: 'https://dia-chat-backend.onrender.com'
         run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
