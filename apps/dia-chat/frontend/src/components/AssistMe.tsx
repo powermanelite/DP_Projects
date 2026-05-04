@@ -24,6 +24,13 @@ const STATUS_LABEL: Record<TaskStatus, string> = {
   done: 'Done',
 };
 
+const COMMANDS = [
+  { label: '/start', description: 'Start a new conversation', endpoint: 'GET /chat/start', behavior: 'Resets the chat and clears all tasks' },
+  { label: '/chat', description: 'Send a message to the assistant', endpoint: 'POST /chat', behavior: 'Triggered by typing in the input box' },
+  { label: '/end', description: 'End the current session', endpoint: 'GET /chat/end', behavior: 'Posts a farewell message from the assistant' },
+  { label: '/health', description: 'Check if the server is running', endpoint: 'GET /health', behavior: 'Posts the server status as an assistant message' },
+];
+
 export default function AssistMe() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -60,6 +67,9 @@ export default function AssistMe() {
       .then(r => r.json())
       .then((data: { reply: string }) => {
         setMessages([{ role: 'assistant', content: data.reply }]);
+      })
+      .catch(() => {
+        setMessages([{ role: 'assistant', content: 'Could not connect to the server. Make sure the backend is running at ' + API_BASE }]);
       });
   }, []);
 
@@ -110,6 +120,25 @@ export default function AssistMe() {
     }
   }
 
+  async function handleEnd() {
+    const res = await fetch(`${API_BASE}/chat/end`);
+    const data: { reply: string } = await res.json();
+    setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+  }
+
+  async function handleNewChat() {
+    const res = await fetch(`${API_BASE}/chat/start`);
+    const data: { reply: string } = await res.json();
+    setMessages([{ role: 'assistant', content: data.reply }]);
+    setTasks([]);
+  }
+
+  async function handleHealth() {
+    const res = await fetch(`${API_BASE}/health`);
+    const data: { status: string } = await res.json();
+    setMessages(prev => [...prev, { role: 'assistant', content: `Server status: ${data.status}` }]);
+  }
+
   return (
     <div className="assist-layout">
       <div className="assist-chat">
@@ -146,20 +175,47 @@ export default function AssistMe() {
         </div>
       </div>
 
-      <div className="assist-postit">
-        <div className="postit-header">Today's Tasks</div>
-        {tasks.length === 0 ? (
-          <p className="postit-empty">No tasks yet — tell me your plan!</p>
-        ) : (
-          <ul className="postit-list">
-            {tasks.map(task => (
-              <li key={task.id} className={`postit-item postit-item--${task.status}`}>
-                <span className="postit-status">{STATUS_LABEL[task.status]}</span>
-                <span className="postit-desc">{task.description}</span>
+      <div className="assist-sidebar">
+        <div className="assist-postit">
+          <div className="postit-header">Today's Tasks</div>
+          {tasks.length === 0 ? (
+            <p className="postit-empty">No tasks yet — tell me your plan!</p>
+          ) : (
+            <ul className="postit-list">
+              {tasks.map(task => (
+                <li key={task.id} className={`postit-item postit-item--${task.status}`}>
+                  <span className="postit-status">{STATUS_LABEL[task.status]}</span>
+                  <span className="postit-desc">{task.description}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="assist-commands">
+          <div className="commands-header">Commands</div>
+          <ul className="commands-list">
+            {COMMANDS.map(cmd => (
+              <li key={cmd.label} className="commands-item">
+                <button
+                  className="commands-btn"
+                  onClick={
+                    cmd.label === '/end' ? handleEnd :
+                    cmd.label === '/start' ? handleNewChat :
+                    cmd.label === '/health' ? handleHealth :
+                    undefined
+                  }
+                  disabled={cmd.label === '/chat'}
+                >
+                  <span className="commands-label">{cmd.label}</span>
+                  <span className="commands-endpoint">{cmd.endpoint}</span>
+                </button>
+                <span className="commands-desc">{cmd.description}</span>
+                <span className="commands-behavior">{cmd.behavior}</span>
               </li>
             ))}
           </ul>
-        )}
+        </div>
       </div>
     </div>
   );

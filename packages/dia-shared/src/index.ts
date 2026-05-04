@@ -1,4 +1,4 @@
-export type Tab = 'home' | 'calendar' | 'map';
+export type Tab = 'home' | 'calendar' | 'map' | 'chat';
 
 export interface ScheduledEvent {
   id: string;

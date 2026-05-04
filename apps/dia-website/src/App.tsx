@@ -3,12 +3,14 @@ import type { Tab, ScheduledEvent, SweepingCalendarRequest } from '@dia/shared';
 import Home from '@dia/home';
 import CalendarPage from '@dia/calendar';
 import MapPage from '@dia/map';
+import ChatPage from '@dia/chat';
 import './App.css';
 
 const tabs: { id: Tab; label: string }[] = [
   { id: 'home', label: 'Home' },
   { id: 'calendar', label: 'Calendar' },
   { id: 'map', label: 'Map' },
+  { id: 'chat', label: 'Assist Me' },
 ];
 
 function App() {
@@ -69,6 +71,7 @@ function App() {
             onPinHandled={() => setMapPinRequest(null)}
           />
         )}
+        {activeTab === 'chat' && <ChatPage />}
       </main>
     </div>
   );

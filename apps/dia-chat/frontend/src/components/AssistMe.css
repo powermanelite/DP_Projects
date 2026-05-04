@@ -126,18 +126,106 @@
   cursor: not-allowed;
 }
 
-/* ── Post-it panel ── */
-.assist-postit {
+/* ── Sidebar ── */
+.assist-sidebar {
   width: 260px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-self: flex-start;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+/* ── Commands panel ── */
+.assist-commands {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.commands-header {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.commands-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.commands-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.commands-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+  text-align: left;
+  width: 100%;
+}
+
+.commands-btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+}
+
+.commands-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.commands-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-family: monospace;
+}
+
+.commands-endpoint {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  font-family: monospace;
+}
+
+.commands-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  padding-left: 2px;
+}
+
+.commands-behavior {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  padding-left: 2px;
+  font-style: italic;
+  opacity: 0.75;
+}
+
+/* ── Post-it panel ── */
+.assist-postit {
   background: #fef9c3;
   border-radius: var(--radius-md);
   border-top: 6px solid #eab308;
   padding: 18px 20px;
   box-shadow: var(--shadow-md);
-  align-self: flex-start;
-  max-height: 100%;
-  overflow-y: auto;
 }
 
 .postit-header {
@@ -201,8 +289,7 @@
     height: 65vh;
   }
 
-  .assist-postit {
+  .assist-sidebar {
     width: 100%;
-    align-self: stretch;
   }
 }
