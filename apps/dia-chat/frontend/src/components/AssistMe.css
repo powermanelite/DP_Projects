@@ -1,7 +1,8 @@
 .assist-layout {
   display: flex;
   gap: 20px;
-  height: 100vh;
+  height: 100%;
+  min-height: 0;
   padding: 20px 24px;
   max-width: 1100px;
   margin: 0 auto;
@@ -133,8 +134,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  align-self: flex-start;
-  max-height: 100%;
+  height: 100%;
   overflow-y: auto;
 }
 
@@ -253,6 +253,22 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.postit-task-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.postit-checkbox {
+  margin-top: 2px;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  accent-color: #15803d;
+  cursor: pointer;
 }
 
 .postit-status {
